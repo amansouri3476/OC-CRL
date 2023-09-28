@@ -1,0 +1,20 @@
+_target_: src.models.modules.slot_attention_mesh.SlotAttention
+
+name: SA_Mesh
+d_in: ${model.encoder.hid_dim}
+d_slot: ${model.encoder.slot_size}
+d_mlp: ${model.encoder.hid_dim}
+n_slots: ${model.encoder.num_slots}
+n_sa_iters: 3
+# n_sh_iters: 5
+# init_slot_method: learned_random
+# learn_mesh_lr: False
+# mesh_lr: 8
+# scale_marginals: ${model.slot_attention.n_slots}
+# temperature: 1
+# detach_slots: False
+
+# mesh_args:
+#   n_sh_iters: ${model.slot_attention.n_sh_iters}
+#   reuse_u_v: True
+#   n_mesh_iters: 4

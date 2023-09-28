@@ -1,0 +1,86 @@
+_target_: src.models.modules.slot_attention_encoder.SlotAttentionEncoder
+
+# TODO: if the number of slots is less than the number of balls, then the code for applying 
+# mechanisms should be changed
+num_slots: ${add_int:${datamodule.n_balls},1}
+num_iterations: 8
+epsilon: 1e-8
+slot_size: 64
+hid_dim: 64 # 64, 128
+resolution_dim: 64
+resolution: ${tuple:${model.encoder.resolution_dim},${model.encoder.resolution_dim}} # should be input width and height
+kernel_size: 5
+padding: 2
+n_channels: 3
+
+slot_attention:
+  _target_: src.models.modules.slot_attention.SlotAttention
+  num_iterations: ${model.encoder.num_iterations}
+  num_slots: ${model.encoder.num_slots}
+  slot_size: ${model.encoder.slot_size}
+  mlp_hidden_size: ${model.encoder.hid_dim}
+  epsilon: ${model.encoder.epsilon}
+  
+encoder_cnn:
+  _target_: src.models.modules.slot_attention_encoder.Encoder
+  hid_dim: ${model.encoder.hid_dim}
+
+  encoder_layers:
+    conv1:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.n_channels}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv1_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv2:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv2_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv3:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv3_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv4:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv4_nonlinearity:
+      _target_: torch.nn.ReLU
+
+
+encoder_pos_emb:
+  _target_: src.models.modules.slot_attention_encoder.SoftPositionEmbed
+  hid_dim: ${model.encoder.hid_dim}
+  resolution: ${model.encoder.resolution}
+
+  
+mlp:
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.hid_dim} # 128
+    out_features: ${model.encoder.hid_dim} # 64
+    bias: False # according to the original tf implementation, not the pytorch replica
+
+  fc1_nonlinearity:
+    _target_: torch.nn.ReLU 
+  
+  fc2:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.hid_dim} # 64
+    out_features: ${model.encoder.hid_dim} # 64
+    bias: False # according to the original tf implementation, not the pytorch replica

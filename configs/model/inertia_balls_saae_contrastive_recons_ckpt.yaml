@@ -1,0 +1,15 @@
+_target_: src.models.inertia_balls_mechanism_match_recons.Inert.load_from_checkpoint
+
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - additional_logger: reconstruction_logger
+
+
+# hparams_file: ${work_dir}/configs/model/overrides.yaml
+n_balls: ${datamodule.n_balls} # used in cvxpylayers initialization
+num_slots: ${add_int:${datamodule.n_balls},1}
+logging_name: eval_from_ckpt_${run_name_ckpt:${model.checkpoint_path}}
+latent_matching: "argmin" # "lin_sum_assignment" # "constrained_lp", "lin_sum_assignment"
+z_dim: 2 # can be 1 for colour, or 2 for x,y

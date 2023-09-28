@@ -1,0 +1,7 @@
+_target_: src.models.modules.slot_attention.SlotAttention
+num_iterations: ${model.encoder.num_iterations}
+num_slots: ${model.encoder.num_slots}
+slot_size: ${model.encoder.slot_size}
+mlp_hidden_size: ${model.encoder.hid_dim}
+epsilon: ${model.encoder.epsilon}
+name: SA

@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "torus",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.75,
+                -0.75,
+                -0.15
+            ],
+            [
+                0.75,
+                0.75,
+                0.15
+            ]
+        ],
+        "mass": 0.2627,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 2304,
+        "nr_vertices": 1152,
+        "surface_area": 3.5366,
+        "volume": 0.2627
+    }
+}

@@ -1,0 +1,172 @@
+_target_: src.models.modules.slot_attention_AE.SlotAttentionAutoEncoder
+
+defaults:
+  - slot_attention: mesh # default or mesh
+
+# TODO: if the number of slots is less than the number of balls, then the code for applying 
+# mechanisms should be changed
+num_slots: ${add_int:${datamodule.n_balls},1}
+num_iterations: 8
+epsilon: 1e-8
+slot_size: 128
+hid_dim: ${model.encoder.slot_size} # 128 # 64, 128
+resolution_dim: 64
+resolution: ${tuple:${model.encoder.resolution_dim},${model.encoder.resolution_dim}} # should be input width and height
+kernel_size: 5
+padding: 2
+n_channels: 3
+
+# slot_attention:
+#   _target_: src.models.modules.slot_attention.SlotAttention
+#   num_iterations: ${model.encoder.num_iterations}
+#   num_slots: ${model.encoder.num_slots}
+#   slot_size: ${model.encoder.slot_size}
+#   mlp_hidden_size: ${model.encoder.hid_dim}
+#   epsilon: ${model.encoder.epsilon}
+  
+encoder_cnn:
+  _target_: src.models.modules.slot_attention_AE.Encoder
+  hid_dim: ${model.encoder.hid_dim}
+
+  encoder_layers:
+    conv1:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.n_channels}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv1_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv2:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv2_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv3:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv3_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    conv4:
+      _target_: torch.nn.Conv2d
+      in_channels: ${model.encoder.hid_dim}
+      out_channels: ${model.encoder.hid_dim}
+      kernel_size: ${model.encoder.kernel_size}
+      padding: ${model.encoder.padding}
+    conv4_nonlinearity:
+      _target_: torch.nn.ReLU
+
+
+encoder_pos_emb:
+  _target_: src.models.modules.slot_attention_AE.SoftPositionEmbed
+  hid_dim: ${model.encoder.hid_dim}
+  resolution: ${model.encoder.resolution}
+
+
+
+decoder_stride: 2
+output_padding: 1
+decoder_init_res_dim: 4
+decoder_init_resolution: ${tuple:${model.encoder.decoder_init_res_dim},${model.encoder.decoder_init_res_dim}}
+decoder_cnn:
+  _target_: src.models.modules.slot_attention_AE.Decoder
+  hid_dim: ${model.encoder.hid_dim}
+
+  decoder_layers:
+    # output_size = strides * (input_size-1) + kernel_size - 2*padding
+    convT1:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${model.encoder.slot_size}
+      kernel_size: ${model.encoder.kernel_size}
+      stride: ${tuple:${model.encoder.decoder_stride},${model.encoder.decoder_stride}}
+      padding: ${model.encoder.padding}
+      output_padding: ${model.encoder.output_padding}
+    convT1_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    convT2:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${model.encoder.slot_size}
+      kernel_size: ${model.encoder.kernel_size}
+      stride: ${tuple:${model.encoder.decoder_stride},${model.encoder.decoder_stride}}
+      padding: ${model.encoder.padding}
+      output_padding: ${model.encoder.output_padding}
+    convT2_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    convT3:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${model.encoder.slot_size}
+      kernel_size: ${model.encoder.kernel_size}
+      stride: ${tuple:${model.encoder.decoder_stride},${model.encoder.decoder_stride}}
+      padding: ${model.encoder.padding}
+      output_padding: ${model.encoder.output_padding}
+    convT3_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    convT4:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${model.encoder.slot_size}
+      kernel_size: ${model.encoder.kernel_size}
+      stride: ${tuple:${model.encoder.decoder_stride},${model.encoder.decoder_stride}}
+      padding: ${model.encoder.padding}
+      output_padding: ${model.encoder.output_padding}
+    convT4_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    convT5:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${model.encoder.slot_size}
+      kernel_size: ${model.encoder.kernel_size}
+      stride: ${tuple:1,1}
+      padding: ${model.encoder.padding}
+    convT5_nonlinearity:
+      _target_: torch.nn.ReLU
+      
+    convT6:
+      _target_: torch.nn.ConvTranspose2d
+      in_channels: ${model.encoder.slot_size}
+      out_channels: ${add_int:${model.encoder.n_channels},1}
+      kernel_size: 3
+      stride: ${tuple:1,1}
+      padding: 1
+      # last deconv layer doesn't have any activation
+#     convT6_nonlinearity:
+#       _target_: torch.nn.ReLU
+      
+
+decoder_pos_emb:
+  _target_: src.models.modules.slot_attention_AE.SoftPositionEmbed
+  hid_dim: ${model.encoder.slot_size}
+  resolution: ${model.encoder.decoder_init_resolution}
+  
+  
+mlp:
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.hid_dim} # 128
+    out_features: ${model.encoder.hid_dim} # 64
+    bias: False # according to the original tf implementation, not the pytorch replica
+
+  fc1_nonlinearity:
+    _target_: torch.nn.ReLU 
+  
+  fc2:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.hid_dim} # 64
+    out_features: ${model.encoder.hid_dim} # 64
+    bias: False # according to the original tf implementation, not the pytorch replica

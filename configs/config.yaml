@@ -1,0 +1,52 @@
+# @package _global_
+
+# specify here default training configuration
+defaults:
+  - trainer: default.yaml
+  - model: inertia_balls_saae_contrastive_recons.yaml
+  - datamodule: inertia_balls.yaml
+#   - datamodule/dataset: inertia_balls.yaml
+  - callbacks: default.yaml # set this to null if you don't want to use callbacks
+  - logger: wandb # either set it to null or set logger here or use command line 
+                  # (e.g. `python run.py logger=wandb`)
+  - hydra: training
+
+  # debugging config (enable through command line, e.g. `python train.py debug=default)
+  - debug: null
+
+  # enable color logging
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+  # enable job submission through slurm
+  - override hydra/launcher: submitit_local_
+  - _self_
+
+mode: train # use ??? to make the specification of this field mandatory 
+            # for now only train is supported, evaluate and evaluate_from_file can be added later
+
+# path to original working directory
+work_dir: ${hydra:runtime.cwd}
+# Verbose explanation: hydra hijacks the working directory by changing it to the current log directory,
+# so it's useful to have this path as a special variable
+# learn more here: https://hydra.cc/docs/next/tutorials/basic/running_your_app/working_directory
+
+# path to folder with data
+data_dir: ${work_dir}/data/
+
+# resuming from a checkpoint. This argument should be passed to trainer.fit(), not to trainer's __init__. Either set it to null to start from scratch or populate it with a valid ckpt_path to resume training
+ckpt_path: /home/user/OC-CRL/logs/path/to/ckpt.ckpt
+
+run_name: ${model.logging_name} # Will be used for logging
+
+
+# pretty print config at the start of the run using Rich library
+print_config: True
+
+# disable python warnings if they annoy you
+ignore_warnings: True
+
+# check performance on test set, using the best model achieved during training
+# lightning chooses best model based on metric specified in checkpoint callback
+test: False
+
+seed: 1234

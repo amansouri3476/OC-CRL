@@ -1,0 +1,54 @@
+dataset_target: src.datamodule.inertia_balls_dataset_colour.InertialBallColourOffset
+z_dim: 1
+
+dataset_parameters:
+  train:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      n_colours: 1
+      split: "train"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.train}
+      color_selection: ${datamodule.color_selection}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  valid:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      n_colours: 1
+      split: "valid"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.valid}
+      color_selection: ${datamodule.color_selection}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  test:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      n_colours: 1
+      split: "test"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.test}
+      color_selection: ${datamodule.color_selection}
+      
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}

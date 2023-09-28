@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "sponge",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.5,
+                -0.5,
+                -0.5
+            ],
+            [
+                0.5,
+                0.5,
+                0.5
+            ]
+        ],
+        "mass": 0.5476,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 28224,
+        "nr_vertices": 13952,
+        "surface_area": 12.2568,
+        "volume": 0.5476
+    }
+}

@@ -1,0 +1,104 @@
+_target_: src.models.inertia_balls_color_match.Inert
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: slot_attention_autoencoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder
+
+
+# model_name_or_path: ${work_dir}/models/
+
+# set this to null to train from scratch.  NOTE: This path (.pt) only contains the 
+# state_dict (to be flexible), if the full ckpt is required (not flexible w/ 
+# different # of slots, then load .ckpt file)
+encoder_ckpt_path: "/home/user/OC-CRL/src/slot_attention_autoencoder.pt"
+encoder_freeze: True
+
+n_balls: ${datamodule.n_balls}
+n_latents: ${mult_int:2,${model.n_balls}}
+baseline: True
+base_architecture: "resnet18"
+
+contrastive:
+    _target_: src.models.contrastive_pl.Contrastive
+    base_architecture: ${model.base_architecture}
+        
+    alpha: 0.0
+    baseline: ${model.baseline}
+    normalize: True
+    normalize_both: True
+    p_norm: 2
+    
+
+# if the matching is based on colors, this should be 3, if it's based on CoM, then it should be 2, and so on
+target_dim: 3
+
+# set this to null to train from scratch
+projection_to_match_target_ckpt_path: "/home/user/OC-CRL/slot_projection_mlp.ckpt"
+projection_to_match_target_freeze: True
+
+projection_to_match_target:
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.slot_size} # 32
+    out_features: ${mult:${model.encoder.slot_size}, 0.5} # 32 * 0.5
+    bias: False
+
+  fc1_nonlinearity:
+    _target_: torch.nn.ReLU 
+
+  fc2:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_match_target.fc1.out_features} # 16
+    out_features: ${mult:${model.projection_to_match_target.fc1.out_features}, 0.5} # 16 * 0.5
+    bias: False
+
+  fc2_nonlinearity:
+    _target_: torch.nn.ReLU 
+  
+  fc3:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_match_target.fc2.out_features}
+    out_features: ${model.target_dim} # 3
+    bias: False
+
+  fc3_nonlinearity:
+    _target_: torch.nn.Sigmoid 
+
+
+z_dim: 2
+
+# set this to null to train from scratch
+projection_to_z_ckpt_path: null
+projection_to_z_freeze: False
+
+projection_to_z:
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.slot_size} # 32
+    out_features: ${mult:${model.encoder.slot_size}, 0.5} # 32 * 0.5
+    bias: False
+
+  fc1_nonlinearity:
+    _target_: torch.nn.ReLU 
+
+  fc2:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_z.fc1.out_features} # 16
+    out_features: ${mult:${model.projection_to_z.fc1.out_features}, 0.5} # 16 * 0.5
+    bias: False
+
+  fc2_nonlinearity:
+    _target_: torch.nn.ReLU 
+  
+  fc3:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_z.fc2.out_features}
+    out_features: ${model.z_dim} # 3
+    bias: False
+
+  fc3_nonlinearity:
+    _target_: torch.nn.ReLU 
+
+
+logging_name: "slot_attention_inertia_balls_contrastive"

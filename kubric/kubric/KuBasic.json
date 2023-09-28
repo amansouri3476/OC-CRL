@@ -1,0 +1,443 @@
+{
+    "assets": {
+        "axis_icon": {
+            "asset_type": "FileBasedObject",
+            "id": "axis_icon",
+            "kwargs": {
+                "background": true,
+                "bounds": [
+                    [
+                        -0.03,
+                        -0.03,
+                        -0.03
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
+                "mass": 0.0,
+                "render_filename": "{asset_dir}/visual_geometry.blend",
+                "simulation_filename": null,
+                "static": true,
+                "render_import_kwargs": {
+                  "filepath": "{asset_dir}/visual_geometry.blend/Object/AxisIcon",
+                  "directory": "{asset_dir}/visual_geometry.blend/Object",
+                  "filename": "AxisIcon"
+              }
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "description": "An icon representing the three axis (X, Y, Z)."
+            }
+        },
+        "bbox_icon": {
+            "asset_type": "FileBasedObject",
+            "id": "bbox_icon",
+            "kwargs": {
+                "background": true,
+                "bounds": [
+                    [
+                        -1.0,
+                        -1.0,
+                        -1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
+                "mass": 0.0,
+                "render_filename": "{asset_dir}/visual_geometry.blend",
+                "simulation_filename": null,
+                "static": true,
+                "render_import_kwargs": {
+                  "filepath": "{asset_dir}/visual_geometry.blend/Object/BBoxIcon",
+                  "directory": "{asset_dir}/visual_geometry.blend/Object",
+                  "filename": "BBoxIcon"
+              }
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "description": "An icon representing a 3D bounding box."
+            }
+        },
+        "camera_icon": {
+            "asset_type": "FileBasedObject",
+            "id": "camera_icon",
+            "kwargs": {
+                "background": true,
+                "bounds": [
+                    [
+                        -0.56386,
+                        -0.80346,
+                        -1.02198
+                    ],
+                    [
+                        0.56386,
+                        0.80346,
+                        0.0
+                    ]
+                ],
+                "mass": 0.0,
+                "render_filename": "{asset_dir}/visual_geometry.blend",
+                "simulation_filename": null,
+                "static": true,
+                "render_import_kwargs": {
+                  "filepath": "{asset_dir}/visual_geometry.blend/Object/CameraIcon",
+                  "directory": "{asset_dir}/visual_geometry.blend/Object",
+                  "filename": "CameraIcon"
+              }
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "description": "An icon for representing a camera. By default shows a black viewing plane, but it can be set to an image by changing the texture in the ViewMaterial."
+            }
+        },
+        "cone": {
+            "asset_type": "FileBasedObject",
+            "id": "cone",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.6007,
+                        -0.6007,
+                        -0.3062
+                    ],
+                    [
+                        0.6007,
+                        0.6007,
+                        0.8997
+                    ]
+                ],
+                "mass": 0.4774,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 1916,
+                "nr_vertices": 960,
+                "surface_area": 3.7164,
+                "volume": 0.4774
+            }
+        },
+        "cube": {
+            "asset_type": "FileBasedObject",
+            "id": "cube",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    [
+                        0.5,
+                        0.5,
+                        0.5
+                    ]
+                ],
+                "mass": 0.9936,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 972,
+                "nr_vertices": 488,
+                "surface_area": 5.738,
+                "volume": 0.9936
+            }
+        },
+        "cylinder": {
+            "asset_type": "FileBasedObject",
+            "id": "cylinder",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    [
+                        0.5,
+                        0.5,
+                        0.5
+                    ]
+                ],
+                "mass": 0.7808,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 2300,
+                "nr_vertices": 1152,
+                "surface_area": 4.5707,
+                "volume": 0.7808
+            }
+        },
+        "dome": {
+            "asset_type": "FileBasedObject",
+            "id": "dome",
+            "kwargs": {
+                "background": true,
+                "bounds": [
+                    [
+                        -40.0,
+                        -40.0,
+                        0.0
+                    ],
+                    [
+                        40.0,
+                        40.0,
+                        40.0
+                    ]
+                ],
+                "mass": 0.0,
+                "render_filename": "{asset_dir}/visual_geometry.blend",
+                "simulation_filename": "{asset_dir}/object.urdf",
+                "static": true,
+                "render_import_kwargs": {
+                  "filepath": "{asset_dir}/visual_geometry.blend/Object/Dome",
+                  "directory": "{asset_dir}/visual_geometry.blend/Object",
+                  "filename": "Dome"
+              }
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "description": "A half-sphere dome with special shaders to allow shadows on the floor while using the 'sky' to act as background while remaining transparent to outside light (e.g. environment HDRIs)."
+            }
+        },
+        "gear": {
+            "asset_type": "FileBasedObject",
+            "id": "gear",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.7494,
+                        -0.7494,
+                        -0.1386
+                    ],
+                    [
+                        0.7494,
+                        0.7494,
+                        0.1386
+                    ]
+                ],
+                "mass": 0.2842,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 5664,
+                "nr_vertices": 2832,
+                "surface_area": 4.5426,
+                "volume": 0.2842
+            }
+        },
+        "sphere": {
+            "asset_type": "FileBasedObject",
+            "id": "sphere",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    [
+                        0.5,
+                        0.5,
+                        0.5
+                    ]
+                ],
+                "mass": 0.5225,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 5120,
+                "nr_vertices": 2562,
+                "surface_area": 3.1378,
+                "volume": 0.5225
+            }
+        },
+        "sponge": {
+            "asset_type": "FileBasedObject",
+            "id": "sponge",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    [
+                        0.5,
+                        0.5,
+                        0.5
+                    ]
+                ],
+                "mass": 0.5476,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 28224,
+                "nr_vertices": 13952,
+                "surface_area": 12.2568,
+                "volume": 0.5476
+            }
+        },
+        "spot": {
+            "asset_type": "FileBasedObject",
+            "id": "spot",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.3429,
+                        -0.626,
+                        -0.5283
+                    ],
+                    [
+                        0.3429,
+                        0.6234,
+                        0.7011
+                    ]
+                ],
+                "mass": 0.2763,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 5856,
+                "nr_vertices": 2930,
+                "surface_area": 3.0199,
+                "volume": 0.2763
+            }
+        },
+        "suzanne": {
+            "asset_type": "FileBasedObject",
+            "id": "suzanne",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.7135,
+                        -0.4408,
+                        -0.6414
+                    ],
+                    [
+                        0.7135,
+                        0.4191,
+                        0.3852
+                    ]
+                ],
+                "mass": 0.3113,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 15628,
+                "nr_vertices": 7816,
+                "surface_area": 2.9803,
+                "volume": 0.3113
+            }
+        },
+        "teapot": {
+            "asset_type": "FileBasedObject",
+            "id": "teapot",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.4649,
+                        -0.7021,
+                        -0.291
+                    ],
+                    [
+                        0.4649,
+                        0.7933,
+                        0.4412
+                    ]
+                ],
+                "mass": 0.3227,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 3214,
+                "nr_vertices": 1607,
+                "surface_area": 2.8012,
+                "volume": 0.3227
+            }
+        },
+        "torus": {
+            "asset_type": "FileBasedObject",
+            "id": "torus",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.75,
+                        -0.75,
+                        -0.15
+                    ],
+                    [
+                        0.75,
+                        0.75,
+                        0.15
+                    ]
+                ],
+                "mass": 0.2627,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 2304,
+                "nr_vertices": 1152,
+                "surface_area": 3.5366,
+                "volume": 0.2627
+            }
+        },
+        "torus_knot": {
+            "asset_type": "FileBasedObject",
+            "id": "torus_knot",
+            "kwargs": {
+                "bounds": [
+                    [
+                        -0.8092,
+                        -0.748,
+                        -0.3458
+                    ],
+                    [
+                        0.5908,
+                        0.7481,
+                        0.3455
+                    ]
+                ],
+                "mass": 0.2724,
+                "render_filename": "{asset_dir}/visual_geometry.obj",
+                "simulation_filename": "{asset_dir}/object.urdf"
+            },
+            "license": "CC BY-SA 4.0",
+            "metadata": {
+                "nr_faces": 5120,
+                "nr_vertices": 2560,
+                "surface_area": 4.8053,
+                "volume": 0.2724
+            }
+        }
+    },
+    "data_dir": "/home/user/kubric/assets__/",
+    "name": "KuBasic",
+    "version": "1.0"
+}

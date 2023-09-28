@@ -1,0 +1,32 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "bbox_icon",
+    "kwargs": {
+        "background": true,
+        "bounds": [
+            [
+                -1.0,
+                -1.0,
+                -1.0
+            ],
+            [
+                1.0,
+                1.0,
+                1.0
+            ]
+        ],
+        "mass": 0.0,
+        "render_filename": "{asset_dir}/visual_geometry.blend",
+        "simulation_filename": null,
+        "static": true,
+        "render_import_kwargs": {
+          "filepath": "{asset_dir}/visual_geometry/Object/BBoxIcon",
+          "directory": "{asset_dir}/visual_geometry/Object",
+          "filename": "BBoxIcon",
+      }
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "description": "An icon representing a 3D bounding box."
+    }
+}

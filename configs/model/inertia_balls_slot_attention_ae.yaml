@@ -1,0 +1,26 @@
+_target_: src.models.inertia_balls_slot_ae_pl.InertiaBallsSlotAttentionAE
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: slot_attention_autoencoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder
+  - additional_logger: reconstruction_logger
+
+
+
+# model_name_or_path: ${work_dir}/models/
+
+# set this to null to train from scratch.  NOTE: This path (.pt) only contains the 
+# state_dict (to be flexible), if the full ckpt is required (not flexible w/ 
+# different # of slots, then load .ckpt file)
+# encoder_ckpt_path: null
+encoder_ckpt_path: ${retrieve_encoder_state_dict:${model.pl_model_ckpt_path}}
+encoder_freeze: False
+
+n_balls: ${datamodule.n_balls}
+n_latents: ${mult_int:${datamodule.z_dim},${model.n_balls}}
+
+compute_mcc: True
+
+logging_name: "slot_attention_${datamodule.datamodule_name}_${datamodule.dataset_name}_autoencoder_${datamodule.n_balls}_${datamodule.color_selection}"
+    

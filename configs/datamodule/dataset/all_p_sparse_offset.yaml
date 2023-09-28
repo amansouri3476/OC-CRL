@@ -1,0 +1,120 @@
+dataset_target: src.datamodule.inertia_balls_dataset_all_p_sparse.InertialBallAllPropertiesSparseOffset
+z_dim: 6
+properties_list: ["x","y","c","s","l","p"] # can be any subset of ["x","y","c","s","l","p"]
+signed: True
+injective: False
+injective_property: "c"
+same_color: False # note that if "c"  is not in the list of properties, this field overrides the colours
+same_shape: False # note that if "s"  is not in the list of properties, this field overrides the shapes
+same_size: False # note that if "l"  is not in the list of properties, this field overrides the sizes
+output_sparse_offsets: True
+random_coordinates: True
+offset_l: 0.02
+offset_p: 0.2
+min_size: 0.06
+max_size: 0.12
+min_phi: 0
+max_phi: 0.7
+
+dataset_parameters:
+  train:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      split: "train"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.train}
+      color_selection: ${datamodule.color_selection}
+      injective: ${datamodule.dataset.injective}
+      injective_property: ${datamodule.dataset.injective_property}
+      same_color: ${datamodule.dataset.same_color}
+      offset_x: 0.2 # x coordinate offset abs value
+      offset_y: ${datamodule.dataset.dataset_parameters.train.dataset.offset_x}
+      offset_l: ${datamodule.dataset.offset_l}
+      offset_p: ${datamodule.dataset.offset_p}
+      min_size: ${datamodule.dataset.min_size}
+      max_size: ${datamodule.dataset.max_size}
+      min_phi: ${datamodule.dataset.min_phi}
+      max_phi: ${datamodule.dataset.max_phi}
+      output_sparse_offsets: ${datamodule.dataset.output_sparse_offsets}
+      random_coordinates: ${datamodule.dataset.random_coordinates}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+      ball_radius: 0.08
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  valid:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      split: "valid"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.valid}
+      color_selection: ${datamodule.color_selection}
+      injective: ${datamodule.dataset.injective}
+      injective_property: ${datamodule.dataset.injective_property}
+      same_color: ${datamodule.dataset.same_color}
+      offset_x: ${datamodule.dataset.dataset_parameters.train.dataset.offset_x} # x coordinate offset abs value
+      offset_y: ${datamodule.dataset.dataset_parameters.valid.dataset.offset_x}
+      offset_l: ${datamodule.dataset.offset_l}
+      offset_p: ${datamodule.dataset.offset_p}
+      min_size: ${datamodule.dataset.min_size}
+      max_size: ${datamodule.dataset.max_size}
+      min_phi: ${datamodule.dataset.min_phi}
+      max_phi: ${datamodule.dataset.max_phi}
+      output_sparse_offsets: ${datamodule.dataset.output_sparse_offsets}
+      random_coordinates: ${datamodule.dataset.random_coordinates}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+      ball_radius: ${datamodule.dataset.dataset_parameters.train.dataset.ball_radius}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  test:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_balls: ${datamodule.n_balls}
+      split: "test"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.test}
+      color_selection: ${datamodule.color_selection}
+      injective: ${datamodule.dataset.injective}
+      injective_property: ${datamodule.dataset.injective_property}
+      same_color: ${datamodule.dataset.same_color}
+      offset_x: ${datamodule.dataset.dataset_parameters.train.dataset.offset_x} # x coordinate offset abs value
+      offset_y: ${datamodule.dataset.dataset_parameters.test.dataset.offset_x}
+      offset_l: ${datamodule.dataset.offset_l}
+      offset_p: ${datamodule.dataset.offset_p}
+      min_size: ${datamodule.dataset.min_size}
+      max_size: ${datamodule.dataset.max_size}
+      min_phi: ${datamodule.dataset.min_phi}
+      max_phi: ${datamodule.dataset.max_phi}
+      output_sparse_offsets: ${datamodule.dataset.output_sparse_offsets}
+      random_coordinates: ${datamodule.dataset.random_coordinates}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+      ball_radius: ${datamodule.dataset.dataset_parameters.train.dataset.ball_radius}
+      
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}

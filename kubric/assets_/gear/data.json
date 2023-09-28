@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "gear",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.7494,
+                -0.7494,
+                -0.1386
+            ],
+            [
+                0.7494,
+                0.7494,
+                0.1386
+            ]
+        ],
+        "mass": 0.2842,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 5664,
+        "nr_vertices": 2832,
+        "surface_area": 4.5426,
+        "volume": 0.2842
+    }
+}

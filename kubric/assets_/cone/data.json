@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "cone",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.6007,
+                -0.6007,
+                -0.3062
+            ],
+            [
+                0.6007,
+                0.6007,
+                0.8997
+            ]
+        ],
+        "mass": 0.4774,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 1916,
+        "nr_vertices": 960,
+        "surface_area": 3.7164,
+        "volume": 0.4774
+    }
+}

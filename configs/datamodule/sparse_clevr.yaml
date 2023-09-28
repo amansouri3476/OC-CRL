@@ -1,0 +1,56 @@
+_target_: src.datamodule.sparse_clevr_datamodule.SparseClevrDataModule
+
+defaults:
+  - dataset: sparse_clevr
+
+regenerate: False
+data_dir: "/home/user/scratch/sparse_clevr/output"
+
+seed: ${seed}
+
+save_dataset: False
+load_dataset: True
+
+dataset_name: ${join_str:${datamodule.dataset.properties_list}} # "xycs" # "xy", "xycs"
+datamodule_name: sparse_clevr
+
+transform:
+    augs: [] # choices=["shift", "hflip", "vflip", "scale", "rotate"]
+
+n_balls: 2
+z_dim: ${datamodule.dataset.z_dim} # the dimension of the target latent, if it is the hue in HSV color, then it is 1, if it is x,y position, then it is 2
+sparsity_degree: 1 # can be in [1,n_balls] range, where n_balls means all objects undergo a change
+known_mechanism: True
+
+# Concerning the data_loaders
+batch_size: 256
+num_workers: 6
+shuffle: False
+drop_last: False
+
+start_idx:
+    train: 0
+    valid: 30000
+    test: 32500
+
+# Samples
+num_samples:
+    train: 30000
+    valid: 2500
+    test: 2500
+
+# color selection of the objects. The model needs this argument in some datasets
+color_selection: cyclic_fixed # options: cyclic_fixed, same, random
+
+transforms:
+    t1:
+      _target_: torchvision.transforms.ToTensor
+    t2:
+      _target_: slot_based_disentanglement.datamodule.transformations.Standardize
+    t3:
+      _target_: slot_based_disentanglement.datamodule.transformations.TensorClip
+#     t4:
+#       _target_: torchvision.transforms.Normalize
+#       mean: [0.98, 0.98, 0.98]
+#       std: [0.09, 0.09, 0.09]
+

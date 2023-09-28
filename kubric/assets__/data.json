@@ -1,0 +1,32 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "axis_icon",
+    "kwargs": {
+        "background": true,
+        "bounds": [
+            [
+                -0.03,
+                -0.03,
+                -0.03
+            ],
+            [
+                1.0,
+                1.0,
+                1.0
+            ]
+        ],
+        "mass": 0.0,
+        "render_filename": "{asset_dir}/visual_geometry.blend",
+        "simulation_filename": null,
+        "static": true,
+        "render_import_kwargs": {
+          "filepath": "{asset_dir}/visual_geometry/Object/AxisIcon",
+          "directory": "{asset_dir}/visual_geometry/Object",
+          "filename": "AxisIcon",
+      }
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "description": "An icon representing the three axis (X, Y, Z)."
+    }
+}

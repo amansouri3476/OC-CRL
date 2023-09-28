@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "spot",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.3429,
+                -0.626,
+                -0.5283
+            ],
+            [
+                0.3429,
+                0.6234,
+                0.7011
+            ]
+        ],
+        "mass": 0.2763,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 5856,
+        "nr_vertices": 2930,
+        "surface_area": 3.0199,
+        "volume": 0.2763
+    }
+}

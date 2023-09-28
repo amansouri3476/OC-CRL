@@ -1,0 +1,86 @@
+_target_: src.datamodule.clevr_datamodule.CLEVRDataModule
+  
+
+dataset_name: "CLEVR"
+clevr_dir: "../../../../scratch/CLEVR_v1.0" # "../../scratch/CLEVR_v1.0" # "~/scratch/CLEVR_v1.0" # "../../../../scratch/CLEVR_v1.0"
+dictionaries_path: "dictionaries.pkl"
+
+seed: ${seed}
+
+max_num_objects: 6
+use_qa: False # use question and answers or not
+
+# Concerning the data_loaders
+batch_size: 64
+num_workers: 6
+shuffle: False
+drop_last: False
+
+# Samples
+num_samples: # numbers are for CLEVR dataset
+    train: 1000 # 70000
+    valid: 100 # 15000
+    test: 100 # 15000
+
+dataset_parameters:
+  train:
+    dataset:
+      _target_: src.datamodule.clevr_dataset.ClevrDataset
+      train: True
+      clevr_dir: ${datamodule.clevr_dir}
+      split: "train"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.train}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  valid:
+    dataset:
+      _target_: src.datamodule.clevr_dataset.ClevrDataset
+      train: False
+      clevr_dir: ${datamodule.clevr_dir}
+      split: "valid"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.valid}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  test:
+    dataset:
+      _target_: src.datamodule.clevr_dataset.ClevrDataset
+      train: False
+      clevr_dir: ${datamodule.clevr_dir}
+      split: "test"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.test}
+      
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+      
+      
+transforms:
+    t1:
+      _target_: torchvision.transforms.ToTensor
+    t2:
+      _target_: src.datamodule.transformations.Standardize
+    t3:
+      _target_: torchvision.transforms.CenterCrop
+      size: ${tuple:192,192}
+    t4:
+      _target_: torchvision.transforms.Resize
+      size: ${tuple:128,128}
+    t5:
+      _target_: src.datamodule.transformations.TensorClip
+      
+      

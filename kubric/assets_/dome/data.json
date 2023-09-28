@@ -1,0 +1,32 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "dome",
+    "kwargs": {
+        "background": true,
+        "bounds": [
+            [
+                -40.0,
+                -40.0,
+                0.0
+            ],
+            [
+                40.0,
+                40.0,
+                40.0
+            ]
+        ],
+        "mass": 0.0,
+        "render_filename": "{asset_dir}/visual_geometry.blend",
+        "simulation_filename": "{asset_dir}/object.urdf",
+        "static": true,
+        "render_import_kwargs": {
+          "filepath": "{asset_dir}/visual_geometry/Object/Dome",
+          "directory": "{asset_dir}/visual_geometry/Object",
+          "filename": "Dome",
+      }
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "description": "A half-sphere dome with special shaders to allow shadows on the floor while using the 'sky' to act as background while remaining transparent to outside light (e.g. environment HDRIs)."
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "camera_icon",
+    "kwargs": {
+        "background": true,
+        "bounds": [
+            [
+                -0.56386
+                -0.80346,
+                -1.02198
+            ],
+            [
+                0.56386,
+                0.80346,
+                0
+            ]
+        ],
+        "mass": 0.0,
+        "render_filename": "{asset_dir}/visual_geometry.blend",
+        "simulation_filename": null,
+        "static": true,
+        "render_import_kwargs": {
+          "filepath": "{asset_dir}/visual_geometry/Object/CameraIcon",
+          "directory": "{asset_dir}/visual_geometry/Object",
+          "filename": "CameraIcon",
+      }
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "description": "An icon for representing a camera. By default shows a black viewing plane, but it can be set to an image by changing the texture in the ViewMaterial."
+    }
+}

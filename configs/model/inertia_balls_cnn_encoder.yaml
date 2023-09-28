@@ -1,0 +1,120 @@
+# This model uses mechanisms to construct a cost matrix and do the matching to projected slots
+# So there won't be any need for any other feature, like shape, color, CoM, etc. However, as opposed to 
+# inertia_balls_saae_contrastive_enc_only, this model uses both the loss in the latent space and the
+# the reconstruction loss to do object-centric learning.
+
+_target_: src.models.inertia_balls_cnn_encoder.Inert
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: resnet18_encoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder, slot_attention_encoder
+  - additional_logger: reconstruction_logger # null
+
+
+# model_name_or_path: ${work_dir}/models/
+
+# full ckpt containing state_dict, callbacks, optimizer, hyperparameters, etc.
+pl_model_ckpt_path: null
+# set this to null to train from scratch.  NOTE: This path (.pt) only contains the 
+# state_dict (to be flexible), if the full ckpt is required (not flexible w/ 
+# different # of slots, then load .ckpt file)
+encoder_ckpt_path: ${retrieve_encoder_state_dict:${model.pl_model_ckpt_path}}
+encoder_freeze: False
+
+n_balls: ${datamodule.n_balls}
+n_latents: ${mult_int:${model.z_dim},${model.n_balls}}
+sparsity_degree: ${datamodule.sparsity_degree}
+known_mechanism: ${datamodule.known_mechanism}
+signed_change: ${datamodule.dataset.signed}
+baseline: True
+base_architecture: "resnet18"
+
+contrastive:
+    _target_: src.models.contrastive_pl.Contrastive
+    base_architecture: ${model.base_architecture}
+        
+    alpha: 0.0
+    baseline: ${model.baseline}
+    normalize: True
+    normalize_both: True
+    p_norm: 2
+    
+
+# This model doesn't match to any target feature (like color, CoM, etc.), rather directly projects slots to target
+# latent dimension and does the matching based on the cost matrix constructed by mechanism
+# predictions per slot projection at time 't' and comparing them to slot projections at t+1
+z_dim: 2
+disentangle_z_dim: 2
+
+# set this to null to train from scratch
+projection_to_z_ckpt_path: null
+projection_to_z_freeze: False
+width: 128
+# projection_to_z:
+#   cnn_output_nonlinearity: 
+#     _target_: torch.nn.LeakyReLU
+#   fc1:
+#     _target_: torch.nn.Linear
+#     in_features: ${model.width}
+#     out_features: ${model.width}
+#     bias: False
+
+#   fc1_nonlinearity:
+#     _target_: torch.nn.LeakyReLU 
+
+#   fc2:
+#     _target_: torch.nn.Linear
+#     in_features: ${model.width}
+#     out_features: ${model.n_latents}
+#     bias: False
+
+separate_projection_head: True
+
+projection_to_z:
+  cnn_output_nonlinearity: 
+    _target_: torch.nn.LeakyReLU
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.width}
+    # out_features: ${mult:${model.width}, 0.5} # ${model.width} # ${model.n_latents} # ${mult:${model.width}, 0.5}
+    # out_features: ${model.width} # ${model.width} # ${model.n_latents} # ${mult:${model.width}, 0.5}
+    # out_features: ${model.n_latents} # ${model.width} # ${model.n_latents} # ${mult:${model.width}, 0.5}
+    out_features: 1
+    bias: False
+
+  # fc1_nonlinearity:
+  #   _target_: torch.nn.ReLU 
+  
+  # fc2:
+  #   _target_: torch.nn.Linear
+  #   in_features: ${model.width} # ${model.width}
+  #   # in_features: ${mult:${model.width}, 0.5} # ${model.width}
+  #   # out_features: ${mult:${model.width}, 0.25} # ${model.width} # ${model.n_latents} # ${mult:${model.width}, 0.5}
+  #   # out_features: ${model.n_latents} # ${model.n_latents} # ${model.width}
+  #   out_features: 1
+  #   bias: True
+
+  # fc2_nonlinearity:
+  #   _target_: torch.nn.ReLU 
+
+  # fc3:
+  #   _target_: torch.nn.Linear
+  #   in_features: ${mult:${model.width}, 0.25}
+  #   # out_features: ${model.n_latents}
+  #   out_features: 1
+  #   bias: True
+
+  # fc3_nonlinearity:
+  #   _target_: torch.nn.ReLU 
+  
+  # fc4:
+  #   _target_: torch.nn.Linear
+  #   in_features: ${model.projection_to_z.fc3.out_features} # 16
+  #   # out_features: ${mult:${model.projection_to_z.fc3.out_features}, 0.5} # 16 * 0.5
+  #   out_features: 1 # ${model.z_dim}
+  #   bias: False
+
+
+logging_name: "CNN_${datamodule.datamodule_name}_zdim_${datamodule.z_dim}_${datamodule.color_selection}_known_mech_${model.known_mechanism}_sparsity_${datamodule.sparsity_degree}/n_balls_${datamodule.n_balls}"
+logging_name_without_subdir: "CNN_${datamodule.datamodule_name}_zdim_${datamodule.z_dim}_n_balls_${datamodule.n_balls}"

@@ -1,0 +1,97 @@
+# This model uses mechanisms to construct a cost matrix and do the matching to projected slots
+# So there won't be any need for any other feature, like shape, color, CoM, etc. Moreover, this
+# model aims for object-centric learning without the help of any decoder
+
+_target_: src.models.inertia_balls_mechanism_match_enc_only.Inert
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: slot_attention_encoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder
+  - additional_logger: reconstruction_logger
+
+w_latent_loss: 100.0
+
+# model_name_or_path: ${work_dir}/models/
+
+# set this to null to train from scratch.  NOTE: This path (.pt) only contains the 
+# state_dict (to be flexible), if the full ckpt is required (not flexible w/ 
+# different # of slots, then load .ckpt file)
+encoder_ckpt_path: null
+encoder_freeze: False
+
+n_balls: ${datamodule.n_balls}
+n_latents: ${mult_int:2,${model.n_balls}}
+baseline: True
+base_architecture: "resnet18"
+
+contrastive:
+    _target_: src.models.contrastive_pl.Contrastive
+    base_architecture: ${model.base_architecture}
+        
+    alpha: 0.0
+    baseline: ${model.baseline}
+    normalize: True
+    normalize_both: True
+    p_norm: 2
+    
+
+# This model doesn't match to any target feature, rather directly projects slots to target
+# latent dimension and does the matching based on the cost matrix constructed by mechanism
+# predictions per slot projection at time 't' and comparing them to slot projections at t+1
+z_dim: 2
+
+# set this to null to train from scratch
+projection_to_z_ckpt_path: null
+projection_to_z_freeze: False
+
+projection_to_z:
+  fc1:
+    _target_: torch.nn.Linear
+    in_features: ${model.encoder.slot_size} # 32
+    out_features: ${mult:${model.encoder.slot_size}, 0.5} # 32 * 0.5
+    bias: False
+
+  fc1_nonlinearity:
+    _target_: torch.nn.ReLU 
+
+  fc2:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_z.fc1.out_features} # 16
+    out_features: ${mult:${model.projection_to_z.fc1.out_features}, 0.5} # 16 * 0.5
+    bias: False
+
+  fc2_nonlinearity:
+    _target_: torch.nn.Tanh 
+  
+  fc3:
+    _target_: torch.nn.Linear
+    in_features: ${model.projection_to_z.fc2.out_features}
+    out_features: ${model.z_dim} # ${mult:${model.projection_to_z.fc2.out_features}, 0.5} # ${model.z_dim} # 2
+    bias: False
+
+  # fc3_nonlinearity:
+  #   _target_: torch.nn.ReLU
+
+  # fc4:
+  #   _target_: torch.nn.Linear
+  #   in_features: ${model.projection_to_z.fc3.out_features}
+  #   out_features: ${mult:${model.projection_to_z.fc3.out_features}, 0.5} # ${model.z_dim} # 2
+  #   bias: False
+
+  # fc4_nonlinearity:
+  #   _target_: torch.nn.ReLU
+
+  # fc5:
+  #   _target_: torch.nn.Linear
+  #   in_features: ${model.projection_to_z.fc4.out_features}
+  #   out_features: ${model.z_dim} # 2
+  #   bias: False
+
+  # fc5_nonlinearity:
+  #   _target_: torch.nn.ReLU
+
+
+
+logging_name: "SA_inertia_balls_contrastive_encoder_only"
+    

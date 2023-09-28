@@ -1,0 +1,12 @@
+_target_: src.models.clevr_slot_ae_pl.CLEVRSlotAttentionAE
+
+defaults:
+  - scheduler_config: reduce_on_plateau # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: slot_attention_autoencoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder
+
+
+# model_name_or_path: ${work_dir}/models/
+
+logging_name: "slot_attention_CLEVR_ae"
+    

@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "suzanne",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.7135,
+                -0.4408,
+                -0.6414
+            ],
+            [
+                0.7135,
+                0.4191,
+                0.3852
+            ]
+        ],
+        "mass": 0.3113,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 15628,
+        "nr_vertices": 7816,
+        "surface_area": 2.9803,
+        "volume": 0.3113
+    }
+}

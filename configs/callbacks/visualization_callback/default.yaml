@@ -1,0 +1,4 @@
+_target_: src.callbacks.visualization_logger.VisualizationLoggerCallback
+
+visualize_every: 20 # Invoke visualization utilities every m training batches.
+n_samples: 3

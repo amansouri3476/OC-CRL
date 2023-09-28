@@ -1,0 +1,9 @@
+_target_: src.models.inertia_balls_cnn_encoder.Inert.load_from_checkpoint
+
+defaults:
+  - scheduler_config: null # options: reduce_on_plateau, linear, polynomial
+  - optimizer: adamw # options: adamw, adam
+  - encoder: resnet18_encoder # options: resnet18_encoder, difference_model, slot_attention_autoencoder, slot_attention_encoder
+  - additional_logger: null
+
+logging_name: eval_from_ckpt_${run_name_ckpt:${model.checkpoint_path}}

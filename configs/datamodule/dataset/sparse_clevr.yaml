@@ -1,0 +1,76 @@
+dataset_target: src.datamodule.sparse_clevr_dataset.SparseClevr
+z_dim: 5
+properties_list: ["x","y","c","s","l"] # ["y","s"] # can be any subset of ["x","y","c","s"]
+injective: False
+same_color: False
+signed: True # The model needs this argument in some datasets
+output_sparse_offsets: False
+
+dataset_parameters:
+  train:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      n_objects: ${datamodule.n_balls}
+      split: "train"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.train}
+      start_idx: ${datamodule.start_idx.train}
+      data_dir: ${datamodule.data_dir}
+      injective: ${datamodule.dataset.injective}
+      same_color: ${datamodule.dataset.same_color}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  valid:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_objects: ${datamodule.n_balls}
+      split: "valid"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.valid}
+      start_idx: ${datamodule.start_idx.valid}
+      data_dir: ${datamodule.data_dir}
+      injective: ${datamodule.dataset.injective}
+      same_color: ${datamodule.dataset.same_color}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}
+
+  test:
+    dataset:
+      _target_: ${datamodule.dataset.dataset_target}
+      human_mode: False
+      n_objects: ${datamodule.n_balls}
+      split: "test"
+      seed: ${datamodule.seed}
+      num_samples: ${datamodule.num_samples.test}
+      start_idx: ${datamodule.start_idx.test}
+      data_dir: ${datamodule.data_dir}
+      injective: ${datamodule.dataset.injective}
+      same_color: ${datamodule.dataset.same_color}
+      signed: ${datamodule.dataset.signed}
+      z_dim: ${datamodule.dataset.z_dim}
+      properties_list: ${datamodule.dataset.properties_list}
+      # shape and colour are categorical and can only be incremented one item in their respective lists
+      
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+      shuffle: ${datamodule.shuffle}
+      drop_last: ${datamodule.drop_last}

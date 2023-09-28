@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "torus_knot",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.8092,
+                -0.748,
+                -0.3458
+            ],
+            [
+                0.5908,
+                0.7481,
+                0.3455
+            ]
+        ],
+        "mass": 0.2724,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 5120,
+        "nr_vertices": 2560,
+        "surface_area": 4.8053,
+        "volume": 0.2724
+    }
+}

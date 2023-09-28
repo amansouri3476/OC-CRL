@@ -1,0 +1,28 @@
+{
+    "asset_type": "FileBasedObject",
+    "id": "teapot",
+    "kwargs": {
+        "bounds": [
+            [
+                -0.4649,
+                -0.7021,
+                -0.291
+            ],
+            [
+                0.4649,
+                0.7933,
+                0.4412
+            ]
+        ],
+        "mass": 0.3227,
+        "render_filename": "{asset_dir}/visual_geometry.obj",
+        "simulation_filename": "{asset_dir}/object.urdf"
+    },
+    "license": "CC BY-SA 4.0",
+    "metadata": {
+        "nr_faces": 3214,
+        "nr_vertices": 1607,
+        "surface_area": 2.8012,
+        "volume": 0.3227
+    }
+}
