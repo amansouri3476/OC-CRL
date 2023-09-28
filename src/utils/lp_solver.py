@@ -84,7 +84,6 @@ def ilp_solver_pulp(cost_matrix):
     # prob.solve(COINMP_DLL(msg=0))
     # prob.solve(COIN_CMD(msg=0))
     
-    # narval uses coin
     # solver_list = lp.listSolvers(onlyAvailable=True)
     # print(f"---------------------\nsolver_list:\n{solver_list}---------------------\n")
     prob.solve(COIN_CMD(msg=0))
